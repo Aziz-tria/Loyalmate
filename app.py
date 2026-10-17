@@ -1,4 +1,6 @@
 import os
+import time
+import threading
 import requests
 from flask import Flask, render_template, request, jsonify
 
@@ -6,8 +8,9 @@ app = Flask(__name__)
 
 PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN", "YOUR_PAGE_ACCESS_TOKEN_HERE")
 VERIFY_TOKEN = os.environ.get("VERIFY_TOKEN", "handsomebot_verify_token_123")
+RENDER_URL = os.environ.get("RENDER_URL", "https://loyalmate.onrender.com/")
 
-# ফেক অর্ডার ডাটা (যেটি তোমার চাওয়া অনুযায়ী রিসিপ্ট বা বক্সে শো করবে)
+# ফেক অর্ডার ডাটা (গ্লাস মফিজম ড্যাশবোর্ডের জন্য)
 FAKE_ORDERS = [
     {
         "id": 1,
@@ -38,9 +41,21 @@ FAKE_ORDERS = [
     }
 ]
 
+# সেলফ-পিং ফাংশন: প্রতি ১০ মিনিট পর পর নিজের সাইটে রিকোয়েস্ট পাঠিয়ে সজাগ রাখবে
+def self_ping():
+    while True:
+        try:
+            time.sleep(600)  # ১০ মিনিট (৬০০ সেকেন্ড) পর পর রান হবে
+            response = requests.get(RENDER_URL)
+            print(f"Self-ping sent! Status Code: {response.status_code}")
+        except Exception as e:
+            print(f"Self-ping failed: {e}")
+
+# ব্যাকগ্রাউন্ডে পিং করার জন্য থ্রেড স্টার্ট করা
+threading.Thread(target=self_ping, daemon=True).start()
+
 @app.route("/", methods=["GET"])
 def home():
-    # ফ্রন্টএন্টে গ্লাসমরফিজম ডিজাইন ও অর্ডার বক্স রেন্ডার করার জন্য ড্যাশবোর্ড পেজ দেখাবে
     return render_template("index.html", orders=FAKE_ORDERS)
 
 # Webhook Verification (Meta)
