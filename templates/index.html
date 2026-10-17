@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loyaltmate - Dashboard</title>
+    <!-- Google Fonts: Orbitron & Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0d061a, #1a0b2e, #090212);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px 20px;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Top Title Style with Orbitron Font */
+        .site-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(90deg, #c77dff, #e0aaff, #7b2cbf);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 25px rgba(157, 78, 221, 0.6);
+            margin-bottom: 35px;
+            text-align: center;
+        }
+
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 600px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Glassmorphism Order Box */
+        .order-box {
+            background: rgba(26, 11, 46, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1.5px solid rgba(255, 255, 255, 0.25);
+            border-radius: 18px;
+            padding: 20px 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(157, 78, 221, 0.15);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .order-box:hover {
+            transform: translateY(-4px);
+            border-color: rgba(199, 125, 255, 0.8);
+            box-shadow: 0 15px 35px rgba(123, 44, 191, 0.4), inset 0 0 20px rgba(199, 125, 255, 0.3);
+        }
+
+        .order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+
+        .order-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.1rem;
+            color: #e0aaff;
+            font-weight: 700;
+        }
+
+        .order-time {
+            font-size: 0.85rem;
+            color: #b197fc;
+            opacity: 0.8;
+        }
+
+        .order-preview {
+            font-size: 0.95rem;
+            color: #d8b4fe;
+        }
+
+        /* Modal / Receipt Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(5, 2, 10, 0.8);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 1000;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .receipt-card {
+            background: linear-gradient(145deg, #180a2a, #0f051d);
+            border: 2px solid #c77dff;
+            border-radius: 20px;
+            padding: 30px;
+            width: 90%;
+            max-name: 450px;
+            max-width: 450px;
+            box-shadow: 0 0 40px rgba(199, 125, 255, 0.4);
+            transform: scale(0.8);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .receipt-card {
+            transform: scale(1);
+        }
+
+        .receipt-title {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 1.4rem;
+            color: #ffffff;
+            margin-bottom: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+            padding-bottom: 10px;
+        }
+
+        .receipt-info {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            font-size: 0.95rem;
+            color: #e2d9f3;
+        }
+
+        .receipt-info p span {
+            color: #c77dff;
+            font-weight: 600;
+        }
+
+        .close-btn {
+            margin-top: 25px;
+            width: 100%;
+            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
+            border: none;
+            padding: 12px;
+            border-radius: 10px;
+            color: white;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
+        }
+
+        .close-btn:hover {
+            background: linear-gradient(135deg, #9d4edd, #c77dff);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Title -->
+    <h1 class="site-title">LOYALMATE</h1>
+
+    <!-- Orders Box Container -->
+    <div class="container">
+        {% for order in orders %}
+        <div class="order-box" onclick="openReceipt('{{ order.fb_name }}', '{{ order.customer_name }}', '{{ order.location }}', '{{ order.product }}', '{{ order.color }}')">
+            <div class="order-header">
+                <span class="order-title">Order #{{ order.id }} - {{ order.customer_name }}</span>
+                <span class="order-time">{{ order.time }}</span>
+            </div>
+            <div class="order-preview">
+                Click to view receipt details for <b>{{ order.product }}</b>...
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Receipt Modal Popup -->
+    <div class="modal-overlay" id="receiptModal" onclick="closeReceipt(event)">
+        <div class="receipt-card" onclick="event.stopPropagation()">
+            <h2 class="receipt-title">📦 Order Receipt</h2>
+            <div class="receipt-info" id="receiptDetails">
+                <!-- Dynamic Content goes here -->
+            </div>
+            <button class="close-btn" onclick="closeModal()">Close Receipt</button>
+        </div>
+    </div>
+
+    <script>
+        function openReceipt(fbName, customerName, location, product, color) {
+            const detailsDiv = document.getElementById('receiptDetails');
+            detailsDiv.innerHTML = `
+                <p><span>FB ID Name:</span> ${fbName}</p>
+                <p><span>Customer Name:</span> ${customerName}</p>
+                <p><span>Location:</span> ${location}</p>
+                <p><span>Ordered Item:</span> ${product}</p>
+                <p><span>Chosen Color:</span> ${color}</p>
+            `;
+            document.getElementById('receiptModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('receiptModal').classList.remove('active');
+        }
+
+        function closeReceipt(event) {
+            if (event.target.classList.contains('modal-overlay')) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+  </html>
