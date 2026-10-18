@@ -4,239 +4,140 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Loyaltmate - Dashboard</title>
-    <!-- Google Fonts: Orbitron & Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <!-- Orbitron Font from Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&display=swap" rel="stylesheet">
     <style>
         * {
+            box-sizing: border-box;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-            font-family: 'Inter', sans-serif;
         }
-
         body {
-            background: linear-gradient(135deg, #0d061a, #1a0b2e, #090212);
-            background-size: 400% 400%;
-            animation: gradientBG 12s ease infinite;
+            background: linear-gradient(135deg, #0b0214 0%, #1a0b2e 50%, #000000 100%);
             color: #ffffff;
+            font-family: 'Orbitron', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 30px 20px;
+            justify-content: center;
             overflow-x: hidden;
+            padding: 20px;
         }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        /* Top Title Style with Orbitron Font */
-        .site-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 2.5rem;
+        
+        /* Main Heading with Deep Purple & Light Purple Glow */
+        h1 {
+            font-size: 4rem;
             font-weight: 900;
-            letter-spacing: 2px;
-            background: linear-gradient(90deg, #c77dff, #e0aaff, #7b2cbf);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 25px rgba(157, 78, 221, 0.6);
-            margin-bottom: 35px;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            margin-bottom: 50px;
+            color: #fff;
+            text-shadow: 
+                0 0 10px rgba(186, 85, 211, 0.8),
+                0 0 20px rgba(186, 85, 211, 0.6),
+                0 0 40px rgba(138, 43, 226, 0.8),
+                0 0 80px rgba(138, 43, 226, 0.5);
             text-align: center;
         }
 
-        /* Main Container */
+        /* Container for 3 boxes */
         .container {
-            width: 100%;
-            max-width: 600px;
             display: flex;
-            flex-direction: column;
-            gap: 20px;
+            gap: 30px;
+            max-width: 1200px;
+            width: 100%;
+            justify-content: center;
+            flex-wrap: wrap;
         }
 
-        /* Glassmorphism Order Box */
+        /* Glassmorphism Order Box with Light Purple Outline and Inner Glow */
         .order-box {
-            background: rgba(26, 11, 46, 0.65);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border: 1.5px solid rgba(255, 255, 255, 0.25);
-            border-radius: 18px;
-            padding: 20px 25px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), inset 0 0 15px rgba(157, 78, 221, 0.15);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
+            background: rgba(25, 10, 45, 0.4);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border: 1px solid rgba(216, 112, 214, 0.4);
+            border-radius: 16px;
+            padding: 25px;
+            width: 320px;
+            box-shadow: 
+                inset 0 0 15px rgba(216, 112, 214, 0.2),
+                0 0 25px rgba(138, 43, 226, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .order-box:hover {
-            transform: translateY(-4px);
-            border-color: rgba(199, 125, 255, 0.8);
-            box-shadow: 0 15px 35px rgba(123, 44, 191, 0.4), inset 0 0 20px rgba(199, 125, 255, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 
+                inset 0 0 20px rgba(216, 112, 214, 0.4),
+                0 0 35px rgba(186, 85, 211, 0.6);
+            border-color: rgba(216, 112, 214, 0.8);
         }
 
-        .order-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 8px;
+        .order-box h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #e0b0ff;
+            border-bottom: 1px solid rgba(216, 112, 214, 0.3);
+            padding-bottom: 8px;
         }
 
-        .order-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.1rem;
-            color: #e0aaff;
-            font-weight: 700;
+        .order-box p {
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+            color: #dcdcdc;
+            line-height: 1.4;
         }
 
-        .order-time {
-            font-size: 0.85rem;
-            color: #b197fc;
-            opacity: 0.8;
-        }
-
-        .order-preview {
-            font-size: 0.95rem;
-            color: #d8b4fe;
-        }
-
-        /* Modal / Receipt Styles */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(5, 2, 10, 0.8);
-            backdrop-filter: blur(8px);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
-            z-index: 1000;
-        }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
-        .receipt-card {
-            background: linear-gradient(145deg, #180a2a, #0f051d);
-            border: 2px solid #c77dff;
-            border-radius: 20px;
-            padding: 30px;
-            width: 90%;
-            max-name: 450px;
-            max-width: 450px;
-            box-shadow: 0 0 40px rgba(199, 125, 255, 0.4);
-            transform: scale(0.8);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .receipt-card {
-            transform: scale(1);
-        }
-
-        .receipt-title {
-            font-family: 'Orbitron', sans-serif;
-            font-size: 1.4rem;
-            color: #ffffff;
-            margin-bottom: 20px;
-            text-align: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-            padding-bottom: 10px;
-        }
-
-        .receipt-info {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            font-size: 0.95rem;
-            color: #e2d9f3;
-        }
-
-        .receipt-info p span {
-            color: #c77dff;
+        .order-box p span {
+            color: #ff77ff;
             font-weight: 600;
         }
 
-        .close-btn {
-            margin-top: 25px;
-            width: 100%;
-            background: linear-gradient(135deg, #7b2cbf, #9d4edd);
-            border: none;
-            padding: 12px;
-            border-radius: 10px;
-            color: white;
-            font-family: 'Orbitron', sans-serif;
-            font-weight: 700;
-            cursor: pointer;
-            transition: background 0.3s ease;
-            box-shadow: 0 0 15px rgba(157, 78, 221, 0.5);
-        }
-
-        .close-btn:hover {
-            background: linear-gradient(135deg, #9d4edd, #c77dff);
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            h1 {
+                font-size: 2.8rem;
+            }
+            .container {
+                flex-direction: column;
+                align-items: center;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Top Title -->
-    <h1 class="site-title">LOYALMATE</h1>
+    <h1>Loyaltmate</h1>
 
-    <!-- Orders Box Container -->
     <div class="container">
-        {% for order in orders %}
-        <div class="order-box" onclick="openReceipt('{{ order.fb_name }}', '{{ order.customer_name }}', '{{ order.location }}', '{{ order.product }}', '{{ order.color }}')">
-            <div class="order-header">
-                <span class="order-title">Order #{{ order.id }} - {{ order.customer_name }}</span>
-                <span class="order-time">{{ order.time }}</span>
-            </div>
-            <div class="order-preview">
-                Click to view receipt details for <b>{{ order.product }}</b>...
-            </div>
+        <!-- Box 1 -->
+        <div class="order-box">
+            <h3>Box 1</h3>
+            <p>Order ID: <span>#LM7890</span></p>
+            <p>Product: <span>Premium Package A</span></p>
+            <p>Customer: <span>Demo User</span></p>
+            <p>Status: <span>Processing</span></p>
         </div>
-        {% endfor %}
+
+        <!-- Box 2 -->
+        <div class="order-box">
+            <h3>Box 2</h3>
+            <p>Order ID: <span>#LM7891</span></p>
+            <p>Product: <span>Starter Plan X</span></p>
+            <p>Customer: <span>Test Client</span></p>
+            <p>Status: <span>Awaiting Confirmation</span></p>
+        </div>
+
+        <!-- Box 3 -->
+        <div class="order-box">
+            <h3>Box 3</h3>
+            <p>Order ID: <span>#LM7892</span></p>
+            <p>Product: <span>Advanced Feature Y</span></p>
+            <p>Customer: <span>Sample Buyer</span></p>
+            <p>Status: <span>Completed</span></p>
+        </div>
     </div>
 
-    <!-- Receipt Modal Popup -->
-    <div class="modal-overlay" id="receiptModal" onclick="closeReceipt(event)">
-        <div class="receipt-card" onclick="event.stopPropagation()">
-            <h2 class="receipt-title">📦 Order Receipt</h2>
-            <div class="receipt-info" id="receiptDetails">
-                <!-- Dynamic Content goes here -->
-            </div>
-            <button class="close-btn" onclick="closeModal()">Close Receipt</button>
-        </div>
-    </div>
-
-    <script>
-        function openReceipt(fbName, customerName, location, product, color) {
-            const detailsDiv = document.getElementById('receiptDetails');
-            detailsDiv.innerHTML = `
-                <p><span>FB ID Name:</span> ${fbName}</p>
-                <p><span>Customer Name:</span> ${customerName}</p>
-                <p><span>Location:</span> ${location}</p>
-                <p><span>Ordered Item:</span> ${product}</p>
-                <p><span>Chosen Color:</span> ${color}</p>
-            `;
-            document.getElementById('receiptModal').classList.add('active');
-        }
-
-        function closeModal() {
-            document.getElementById('receiptModal').classList.remove('active');
-        }
-
-        function closeReceipt(event) {
-            if (event.target.classList.contains('modal-overlay')) {
-                closeModal();
-            }
-        }
-    </script>
 </body>
-  </html>
+</html>
