@@ -2,11 +2,11 @@ import os
 import threading
 import time
 import requests
-from flask import Flask, request
+from flask import Flask, render_template, request
 
 app = Flask(__name__)
 
-PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN", "EAAMi3ZByHqCQBS3zv6PpwzxkewSRQLaZCdhj8zwsqNrZCiR7C8Ntv7Ql22peU58lDNlbyi8cJRhZBnDtCeNsqEZCRc8sXL4w6efEFjZCFkMDTuHGj1pfL8BRH9MfUJYhC6GB7Dnl8lcv4rbWAUWeVs9tbbAZAIACl2ZCZCWQZC3kY4eOtVc7BRACEgXb8apPcFV05ZCRx0lbYo9AwZDZD")
+PAGE_ACCESS_TOKEN = os.environ.get("PAGE_ACCESS_TOKEN")
 VERIFY_TOKEN = os.environ.get(
     "VERIFY_TOKEN", "handsomebot_verify_token_123"
 )
@@ -28,9 +28,10 @@ def self_ping():
 threading.Thread(target=self_ping, daemon=True).start()
 
 
+# ব্রাউজারে সুন্দর ডিজাইন করা index.html দেখানোর জন্য
 @app.route("/")
 def home():
-  return "Loyaltmate Flask Server is Alive!"
+  return render_template("index.html")
 
 
 @app.route("/webhook", methods=["GET"])
@@ -56,7 +57,7 @@ def handle_webhook():
   if data.get("object") == "page":
     for entry in data.get("entry", []):
       for messaging_event in entry.get("messaging", []):
-        sender_id = messaging_event.get("sender", {}).get("id")
+        sender_id = messaging_event.get("sender", {}).id
 
         # যদি ইউজার কোনো টেক্সট মেসেজ পাঠায়
         if messaging_event.get("message") and messaging_event["message"].get(
